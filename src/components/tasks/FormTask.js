@@ -1,4 +1,15 @@
+import { useSelector } from "react-redux";
+
 export const FormTask = () => {
+
+  const storeState = useSelector(state => state.form)  
+
+  console.log(storeState)
+
+  const { project } = storeState
+  const [actualProject] = project
+
+  if(!actualProject) return null
 
   return (
     <div className="formulario">

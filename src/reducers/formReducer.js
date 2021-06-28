@@ -5,7 +5,8 @@ import {
   ADD_PROJECT_ERROR,
   GET_PROJECTS,
   FORM_ERROR,
-  ACTUAL_PROJECT
+  ACTUAL_PROJECT,
+  DELETE_PROJECT,
 } from "../types";
 
 const initialState = {
@@ -13,7 +14,7 @@ const initialState = {
   projects: [],
   loading: false,
   error: null,
-  project: []
+  project: [] 
 };
 
 export default function (state = initialState, action) {
@@ -61,7 +62,14 @@ export default function (state = initialState, action) {
     case ACTUAL_PROJECT:
       return {
         ...state,
-        project: state.projects.filter(project => project === action.payload) 
+        project: state.projects.filter(project => project.id === action.payload) 
+      }
+
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        projects: state.projects.filter(project => project.id !== action.payload),
+        project: []
       }
 
     default:

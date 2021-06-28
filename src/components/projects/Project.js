@@ -1,15 +1,16 @@
 import { useDispatch } from "react-redux";
 import { selectActualProject } from '../../actions/formAction'
-
+import { getTheTasks } from "../../actions/taskAction";
 
 export const Project = ({project}) => {
 
   const dispatch = useDispatch()
-  const selectProject = () => dispatch(selectActualProject(project))
+  const selectProject = () => dispatch(selectActualProject(project.id))
+  const getTasks = () => dispatch(getTheTasks())
 
-  const handleClick = (e) => {
-    selectProject(project) 
-    console.log(project)
+  const handleClick = () => {
+    selectProject(project.id) 
+    getTasks()
   }
 
   return (
