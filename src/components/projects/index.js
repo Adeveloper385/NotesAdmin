@@ -11,15 +11,8 @@ import { authUser } from "../../actions/authAction";
 
 const Projects = ({ authState, authUser }) => {
 
-  function callAuth(){
-    return async(dispatch) => {
-      dispatch(authUser())
-    }
-  }
-
   useEffect(() => {
     authUser() 
-    //callAuth()
   }, [])
 
   return (
