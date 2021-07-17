@@ -17,7 +17,7 @@ const initialState = {
   project: [] 
 };
 
-export default function (state = initialState, action) {
+export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_FORM:
       return {
@@ -36,7 +36,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        projects: [...state.projects, action.payload],
+        projects: [ action.payload, ...state.projects],
         visible: false
       };
 

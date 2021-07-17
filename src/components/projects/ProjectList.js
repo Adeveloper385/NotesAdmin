@@ -1,23 +1,29 @@
-import { Project } from "./Project";
-import { useSelector } from "react-redux";
-import {useEffect} from "react";
-import { getTheProjects } from "../../actions/formAction";
-import { useDispatch } from "react-redux";
+//    COMPONENTS
+import Project from "./Project";
 
-export const ProjectList = () => {
+//    CSS
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+//    REDUX
+import { connect } from "react-redux";
 
-  const storeState = useSelector(state => state.form)
-  const dispatch = useDispatch
-  const getProjects = dispatch(() => getTheProjects)
-
-
-  if (storeState.projects.lenght === 0) return null
+const ProjectList = ({ formState }) => {
+  if (formState.projects.lenght === 0) return null;
   return (
     <ul className="listado-proyectos">
-      {storeState.projects.map((project) => (
-        <Project project={project} />
-      ))}
+      <TransitionGroup>
+        {formState.projects.map((project) => (
+          <CSSTransition key={project.id} classNames="proyecto" timeout={500}>
+            <Project project={project} />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
     </ul>
   );
 };
+
+const mapStateToProps = (state) => ({
+  formState: state.form,
+});
+
+export default connect(mapStateToProps)(ProjectList);

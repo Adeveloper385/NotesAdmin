@@ -1,4 +1,4 @@
-export const Header = () => {
+const Header = () => {
   return (
     <header className="app-header">
       <p className="nombre-usuario">
@@ -10,3 +10,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

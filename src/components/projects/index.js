@@ -1,9 +1,10 @@
-import { Aside } from "../layout/Aside";
-import { Header } from "../layout/Header";
-import { FormTask } from "../tasks/FormTask";
-import { TaskList } from "../tasks/TaskList";
+//    COMPONENTS
+import Aside from "../layout/Aside";
+import Header from "../layout/Header";
+import FormTask from "../tasks/FormTask";
+import TaskList from "../tasks/TaskList";
 
-export const Projects = () => {
+const Projects = () => {
   return (
     <div className="contenedor-app">
       <Aside />
@@ -19,3 +20,5 @@ export const Projects = () => {
     </div>
   );
 };
+
+export default Projects

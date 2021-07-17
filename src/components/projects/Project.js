@@ -1,16 +1,15 @@
-import { useDispatch } from "react-redux";
+//    REDUX
+import { connect } from "react-redux";
+
+//    Actions
 import { selectActualProject } from '../../actions/formAction'
 import { getTheTasks } from "../../actions/taskAction";
 
-export const Project = ({project}) => {
-
-  const dispatch = useDispatch()
-  const selectProject = () => dispatch(selectActualProject(project.id))
-  const getTasks = () => dispatch(getTheTasks())
+ const Project = ({project, getTheTasks, selectActualProject}) => {
 
   const handleClick = () => {
-    selectProject(project.id) 
-    getTasks()
+    selectActualProject(project.id) 
+    getTheTasks(project.id)
   }
 
   return (
@@ -22,3 +21,12 @@ export const Project = ({project}) => {
     </li>
   );
 };
+
+const mapDispatchToProps = {
+  getTheTasks,
+  selectActualProject
+}
+
+const mapStateToProps = (state) => ({state})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Project)

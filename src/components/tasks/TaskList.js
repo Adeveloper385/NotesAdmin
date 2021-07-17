@@ -1,44 +1,51 @@
-import { Task } from "./Task";
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteActualProject } from '../../actions/formAction'
+//    COMPONENTS
+import Task from "./Task";
 
-export const TaskList = () => {
-  
-  //    REDUX
-  const dispatch = useDispatch()
-  const deleteProject = (projectId) => dispatch(deleteActualProject(projectId))
+//    REDUX
+import { connect } from "react-redux";
+import { deleteActualProject } from "../../actions/formAction";
 
-  const storeStateForm = useSelector(state => state.form)
-  const storeStateTasks = useSelector(state => state.tasks)
-  const tasks = storeStateTasks.tasks
+//    CSS
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-  const {project} = storeStateForm
-  const [actualProject] = project
 
-  console.log(actualProject)
+const TaskList = ({ formState, projectState, deleteActualProject }) => {
 
+  //  Destructuring
+  const tasks = projectState.projectTasks;
+  const { project } = formState;
+  const [actualProject] = project;
+
+  //  Handlers
   const handleDelete = (actualProject) => {
-    const id = actualProject.id
-    deleteProject(id)
-  }
+    const id = actualProject.id;
+    deleteActualProject(id);
+  };
 
-  if (!storeStateForm.project[0]) return <h2>Selecciona un Proyecto</h2>
+  //  No Proyect
+  if (!formState.project[0]) return <h2>Selecciona un Proyecto</h2>;
 
   return (
     <>
-      <h2>Proyecto: {storeStateForm.project[0].name}</h2>
+      <h2>Proyecto: {formState.project[0].name}</h2>
       <ul className="listado-tareas">
         {tasks.length === 0 ? (
           <li className="tarea">
             <p>No hay Tareas</p>
           </li>
         ) : (
-          tasks.map((task) => <Task task={task} />)
+          <TransitionGroup>
+            {tasks.map((task) => (
+              <CSSTransition key={task.id} timeout={300} classNames="tarea">
+                <Task task={task} projectId={actualProject.id} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
         )}
       </ul>
 
-      <button 
-        type="button" 
+      <button
+        type="button"
         className="btn btn-secundario"
         onClick={() => handleDelete(actualProject)}
       >
@@ -47,3 +54,14 @@ export const TaskList = () => {
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  projectState: state.projectTasks,
+  formState: state.form,
+});
+
+const mapDispatchToProps = {
+  deleteActualProject,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

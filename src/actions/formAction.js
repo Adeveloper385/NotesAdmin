@@ -9,84 +9,69 @@ import {
   DELETE_PROJECT,
 } from "../types";
 
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 export function addNewProject(project) {
   project.id = uuidv4();
   return (dispatch) => {
-    dispatch(addProject());
+    dispatch({
+      type: ADD_PROJECT,
+      payload: true,
+    });
     try {
-      dispatch(addProjectSuccess(project));
+      dispatch({
+        type: ADD_PROJECT_SUCCESS,
+        payload: project,
+      });
     } catch (err) {
-      dispatch(addProjectError());
+      dispatch({
+        type: ADD_PROJECT_ERROR,
+      });
     }
   };
 }
 
 export function setVisibleForm() {
   return (dispatch) => {
-    dispatch(showForm());
+    dispatch({
+      type: SHOW_FORM,
+    });
   };
 }
 
 export function getTheProjects(projects) {
   return (dispatch) => {
-    dispatch(getProjects(projects));
+    dispatch({
+      type: GET_PROJECTS,
+      payload: projects,
+    });
   };
 }
 
 export function isError() {
   return (dispatch) => {
-    dispatch(formError());
+    dispatch({
+      type: FORM_ERROR,
+      payload: true,
+    });
   };
 }
 
 export function selectActualProject(projectId) {
   return (dispatch) => {
-    dispatch(actualProject(projectId));
+    dispatch({
+      type: ACTUAL_PROJECT,
+      payload: projectId,
+    });
   };
 }
 
 export function deleteActualProject(projectId) {
   return (dispatch) => {
-    dispatch(deleteProject(projectId));
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: projectId,
+    });
   };
 }
 
-const showForm = () => ({
-  type: SHOW_FORM,
-});
-
-const addProject = () => ({
-  type: ADD_PROJECT,
-  payload: true,
-});
-
-const addProjectSuccess = (project) => ({
-  type: ADD_PROJECT_SUCCESS,
-  payload: project,
-});
-
-const addProjectError = () => ({
-  type: ADD_PROJECT_ERROR,
-});
-
-const getProjects = (projects) => ({
-  type: GET_PROJECTS,
-  payload: projects,
-});
-
-const formError = () => ({
-  type: FORM_ERROR,
-  payload: true,
-});
-
-const actualProject = (projectId) => ({
-  type: ACTUAL_PROJECT,
-  payload: projectId,
-});
-
-const deleteProject = (projectId) => ({
-  type: DELETE_PROJECT,
-  payload: projectId,
-});

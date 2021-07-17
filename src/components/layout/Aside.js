@@ -1,7 +1,7 @@
-import { NewProjectForm } from "../projects/NewProjectForm";
-import { ProjectList } from '../projects/ProjectList'
+import NewProjectForm from "../projects/NewProjectForm";
+import ProjectList from '../projects/ProjectList'
 
-export const Aside = () => {
+const Aside = () => {
   return (
     <aside>
       <h1>
@@ -16,3 +16,5 @@ export const Aside = () => {
     </aside>
   );
 };
+
+export default Aside

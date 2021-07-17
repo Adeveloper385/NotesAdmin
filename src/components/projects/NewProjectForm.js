@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+//    REDUX
+import { connect } from 'react-redux'
+//    Actions
 import { addNewProject } from "../../actions/formAction";
 import { setVisibleForm } from "../../actions/formAction";
 import { isError } from '../../actions/formAction'
 
-export const NewProjectForm = () => {
+ const NewProjectForm = ({ formState, addNewProject, setVisibleForm, isError }) => {
+
+  //  State
   const [project, setProject] = useState({
     name: "",
   });
-
-  //    Call    REDUX Actions
-  const dispatch = useDispatch();
-
-  const addProject = (project) => dispatch(addNewProject(project));
-  const showForm = () => dispatch(setVisibleForm());
-  const isFormError = () => dispatch(isError())
-
-  const storeState = useSelector((state) => state.form); // End REDUX
 
 
   //    Event   Handlers    --------------->
@@ -32,11 +28,11 @@ export const NewProjectForm = () => {
 
     //    Validation
     if (name.trim() === "") {
-      isFormError()
+      isError()
       return;
     }
 
-    addProject(project);
+    addNewProject(project);
     setProject({
       name: ''
     }) 
@@ -49,11 +45,11 @@ export const NewProjectForm = () => {
       <button
         type="button"
         className="btn btn-block btn-primario"
-        onClick={() => showForm()}
+        onClick={() => setVisibleForm()}
       >
-        {storeState.visible ? "Cancelar" : "Nuevo Proyecto"}
+        {formState.visible ? "Cancelar" : "Nuevo Proyecto"}
       </button>
-      {storeState.visible ? (
+      {formState.visible ? (
         <form
           className="formulario-nuevo-proyecto"
           onSubmit={formSubmitProject}
@@ -74,7 +70,19 @@ export const NewProjectForm = () => {
           />
         </form>
       ) : null}
-      <span className="">{storeState.error ? 'Dale un nombre a tu proyecto' : null}</span>
+      <span className="">{formState.error ? 'Dale un nombre a tu proyecto' : null}</span>
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  formState: state.form    
+})
+
+const mapDispatchToProps = {
+  addNewProject,
+  setVisibleForm,
+  isError
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewProjectForm) 

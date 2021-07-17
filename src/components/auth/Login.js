@@ -1,12 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+//    RRD
 import { Link } from "react-router-dom";
 
+//    REDUX
+import { connect } from "react-redux";
+//    Actions
+import { logIn } from "../../actions/authAction";
+import { showAlert } from "../../actions/alertAction";
 
-export const Login = () => {
+const Login = ({ alertState, authState, logIn, showAlert, history }) => {
+
+  //State
   const [credentials, setCredentiasl] = useState({
     email: "",
     password: "",
   });
+
+  //  Destructuring
+  const { alert } = alertState;
+  const { msg, auth } = authState;
+  const { email, password } = credentials;
+
+  //    auth user or auth error
+  useEffect(() => {
+    if (auth) history.push("/projects");
+    if (msg) showAlert(msg.msg, msg.category);
+  }, [msg, auth]);
 
   //    Handle Events   -------------->
   const handleInputChange = (e) => {
@@ -16,18 +35,26 @@ export const Login = () => {
     });
   };
 
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
     //    Validation
+    if (email.trim() === "" || password.trim() === "") {
+      showAlert("Todos los campos son obligatorios", "alerta-error");
+      return;
+    }
 
     //    Action
-  };
-
-  const { email, password } = credentials; //    End Handle Events
+    logIn({ email, password });
+  };                                              //    End Handle Events      
+   
 
   return (
     <div className="form-usuario">
+      {alert ? (
+        <div className={`alerta ${alert.category}`}>{alert.msg}</div>
+      ) : null}
       <div className="contenedor-form">
         <h1>Iniciar Sesion</h1>
         <form onSubmit={handleFormSubmit}>
@@ -62,8 +89,24 @@ export const Login = () => {
             />
           </div>
         </form>
-        <Link to="/new-account" className="enlace-cuenta">Registrate</Link>
+        <Link to="/new-account" className="enlace-cuenta">
+          Registrate
+        </Link>
       </div>
-    </div> 
+    </div>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    alertState: state.alertState,
+    authState: state.authState,
+  };
+};
+
+const mapDispatchToProps = {
+  logIn,
+  showAlert,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
