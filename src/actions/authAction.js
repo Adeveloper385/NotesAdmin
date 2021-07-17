@@ -31,21 +31,22 @@ export function registerUser(data) {
   };
 }
 
-export function authUser(){
-  return async(dispatch) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    //    Send token by headers
-    authToken(token);
-  }
-  try {
-    const response = await axiosClient.get("/api/auth");
-    dispatch({ type: GET_USER, payload: response.data })
-  } catch (err) {
-    console.log(err.response);
-    dispatch({ type: LOGIN_ERROR })
-  }
-}}
+export function authUser() {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      //    Send token by headers
+      authToken(token);
+    }
+    try {
+      const response = await axiosClient.get("/api/auth");
+      dispatch({ type: GET_USER, payload: response.data });
+    } catch (err) {
+      console.log(err.response);
+      dispatch({ type: LOGIN_ERROR });
+    }
+  };
+}
 
 export function logIn(data) {
   return async (dispatch) => {
@@ -66,4 +67,8 @@ export function logIn(data) {
       dispatch({ type: LOGIN_ERROR, payload: alert });
     }
   };
+}
+
+export function logOut(){
+  return { type: LOG_OUT}
 }

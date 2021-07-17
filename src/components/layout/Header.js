@@ -1,14 +1,42 @@
-const Header = () => {
+import { useEffect } from "react";
+
+//    REDUX
+import { connect } from "react-redux";
+import { authUser, logOut } from "../../actions/authAction";
+
+const Header = ({ authState, authUser, logOut }) => {
+  const { user } = authState;
+
+  useEffect(() => {
+    authUser();
+  }, []);
+
   return (
     <header className="app-header">
-      <p className="nombre-usuario">
-        Hola! <span>André</span>
-      </p>
+      {user ? (
+        <p className="nombre-usuario">
+          Hola! <span>{user.name}</span>
+        </p>
+      ) : null}
       <nav className="nav-principal">
-        <a href="#!">Cerrar Sesión</a>
+        <button 
+          className="btn btn-blank cerrar-sesion"
+          onClick={() => logOut()}
+        >
+          Cerrar Sesión
+        </button>
       </nav>
     </header>
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  authState: state.authState,
+});
+
+const mapDispatchToProps = {
+  authUser,
+  logOut
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

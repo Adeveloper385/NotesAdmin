@@ -1,10 +1,27 @@
+import { useEffect } from "react";
 //    COMPONENTS
 import Aside from "../layout/Aside";
 import Header from "../layout/Header";
 import FormTask from "../tasks/FormTask";
 import TaskList from "../tasks/TaskList";
 
-const Projects = () => {
+//    REDUX
+import { connect } from 'react-redux'
+import { authUser } from "../../actions/authAction";
+
+const Projects = ({ authState, authUser }) => {
+
+  function callAuth(){
+    return async(dispatch) => {
+      dispatch(authUser())
+    }
+  }
+
+  useEffect(() => {
+    authUser() 
+    //callAuth()
+  }, [])
+
   return (
     <div className="contenedor-app">
       <Aside />
@@ -21,4 +38,12 @@ const Projects = () => {
   );
 };
 
-export default Projects
+const mapStateToProps = state => ({
+  authState: state.authState
+})
+  
+const mapDispatchToProps = {
+  authUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Projects) 

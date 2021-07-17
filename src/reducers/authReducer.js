@@ -11,7 +11,8 @@ const initialState = {
   token: localStorage.getItem('token'),
   auth: null,
   user: null,
-  msg: null
+  msg: null,
+  loading: true
 }
 
 export default function authReducer(state = initialState, action){
@@ -22,23 +23,31 @@ export default function authReducer(state = initialState, action){
       return {
         ...state,
         auth: true,
-        msg: null
+        msg: null,
+        loading: true,
       }
 
+    case LOG_OUT:
     case LOGIN_ERROR:
     case REGISTER_ERROR:
       localStorage.removeItem('token')
       return {
         ...state,
-        msg: action.payload
+        token: null,
+        user: null,
+        auth: null,
+        msg: action.payload,
+        loading: false
       }
 
     case GET_USER:
       return {
         ...state,
-        user: action.payload
+        auth: true,
+        user: action.payload,
+        loading: false
       }
-  
+
     default: 
       return state
   }
