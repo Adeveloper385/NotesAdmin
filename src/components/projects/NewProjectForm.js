@@ -3,11 +3,11 @@ import React, { useState } from "react";
 //    REDUX
 import { connect } from 'react-redux'
 //    Actions
-import { addNewProject } from "../../actions/formAction";
+import { addNewProject, getTheProjects } from "../../actions/formAction";
 import { setVisibleForm } from "../../actions/formAction";
 import { isError } from '../../actions/formAction'
 
- const NewProjectForm = ({ formState, addNewProject, setVisibleForm, isError }) => {
+ const NewProjectForm = ({ formState, addNewProject, setVisibleForm, isError, getTheProjects }) => {
 
   //  State
   const [project, setProject] = useState({
@@ -36,6 +36,7 @@ import { isError } from '../../actions/formAction'
     setProject({
       name: ''
     }) 
+    getTheProjects()
   };
 
   const { name } = project; // End    EventHandlers
@@ -82,7 +83,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   addNewProject,
   setVisibleForm,
-  isError
+  isError,
+  getTheProjects
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProjectForm) 

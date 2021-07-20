@@ -1,40 +1,39 @@
-import { v4 as uuidv4 } from "uuid";
+import axiosClient from "../config/axios";
 
 import {
   GET_TASK,
   ADD_TASK,
-  ADD_TASK_SUCCESS,
   ADD_TASK_ERROR,
   TASK_ERROR,
   DELETE_TASK,
   EDIT_TASK,
-  CHANGE_STATE,
   ACTUAL_TASK,
 } from "../types";
 
-export function getTheTasks(projectId) {
-  return (disptach) => {
-    disptach({
-      type: GET_TASK,
-      payload: projectId,
-    });
+export function getTheTasks(project) {
+  return async (disptach) => {
+    try {
+      const res = await axiosClient.get("/api/tasks", { params: { project } });
+      disptach({
+        type: GET_TASK,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err.response);
+    }
   };
 }
 
-export function addNewTask(task, id) {
-  task.id = uuidv4();
-  task.projectId = id;
-  return (dispatch) => {
-    dispatch({
-      type: ADD_TASK,
-      payload: true,
-    });
+export function addNewTask(task) {
+  return async (dispatch) => {
     try {
+      const response = await axiosClient.post("/api/tasks", task);
       dispatch({
-        type: ADD_TASK_SUCCESS,
-        payload: task,
+        type: ADD_TASK,
+        payload: response.data.task,
       });
     } catch (err) {
+      console.log(err.respone);
       dispatch({
         type: ADD_TASK_ERROR,
         payload: true,
@@ -52,26 +51,28 @@ export function taskErrors() {
   };
 }
 
-export function deleteATask(taskId) {
-  return (dispatch) => {
+export function deleteATask(id, project) {
+  return async (dispatch) => {
+    await axiosClient.delete(`/api/tasks/${id}`, { params: { project } });
     dispatch({
       type: DELETE_TASK,
-      payload: taskId,
+      payload: id,
     });
   };
 }
 
 export function editTask(task) {
-  return {
-    type: EDIT_TASK,
-    payload: task,
-  };
-}
+  return async (dispatch) => {
+    try {
+      const res = await axiosClient.put(`/api/tasks/${task._id}`, task);
+      dispatch({
+        type: EDIT_TASK,
+        payload: res.data.task
+      })
+    } catch (err) {
+      console.log(err)
 
-export function changeState(task) {
-  return {
-    type: CHANGE_STATE,
-    payload: task,
+    }
   };
 }
 
@@ -81,4 +82,3 @@ export function actualTask(task) {
     payload: task,
   };
 }
-

@@ -1,28 +1,31 @@
 //    REDUX
 import { connect } from "react-redux";
 import { deleteATask, getTheTasks } from "../../actions/taskAction";
-import { changeState, actualTask } from "../../actions/taskAction";
+import { editTask, actualTask } from "../../actions/taskAction";
 
-const Task = ({ task, projectId, deleteATask, getTheTasks, changeState, actualTask }) => {
+const Task = ({ task,formState, deleteATask, getTheTasks, editTask, actualTask }) => {
+
+  const { project } = formState
+  const [actualProject] = project
 
   //    Event Handlers
-  const handleDelete = (taskId, projectId) => {
-    deleteATask(taskId);
-    getTheTasks(projectId);
+  const handleDelete = (taskId) => {
+    deleteATask(taskId, actualProject._id);
+    getTheTasks(actualProject._id);
   };
 
   const handleComplete = (task) => {
 
-    if (task.isComplete) {
-      task.isComplete = false;
+    if (task.status) {
+      task.status = false;
     } else {
-      task.isComplete = true;
+      task.status = true;
     }
-    changeState(task)
+
+    editTask(task)
   };
 
   const handleChange = (task) => {
-    console.log(task)
     actualTask(task)  
   }                                     //  End Event Handlers
 
@@ -30,7 +33,7 @@ const Task = ({ task, projectId, deleteATask, getTheTasks, changeState, actualTa
     <li className="tarea sombra">
       <p>{task.name}</p>
       <div className="estado">
-        {task.isComplete ? (
+        {task.status ? (
           <button
             type="button"
             className="completo"
@@ -60,7 +63,7 @@ const Task = ({ task, projectId, deleteATask, getTheTasks, changeState, actualTa
         <button
           type="button"
           className="btn btn-secundario"
-          onClick={() => handleDelete(task.id, projectId)}
+          onClick={() => handleDelete(task._id)}
         >
           Eliminar
         </button>
@@ -69,13 +72,15 @@ const Task = ({ task, projectId, deleteATask, getTheTasks, changeState, actualTa
   );
 };
 
-const mapStateToProps = state => ({state})
+const mapStateToProps = state => ({
+  formState: state.form
+})
 
 const mapDispatchToProps = {
   deleteATask,
-  changeState,
   getTheTasks,
-  actualTask
+  actualTask,
+  editTask
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task) 

@@ -7,23 +7,25 @@ import {
   FORM_ERROR,
   ACTUAL_PROJECT,
   DELETE_PROJECT,
+  PROJECT_ERROR,
 } from "../types";
 
-import { v4 as uuidv4 } from "uuid";
+import axiosClient from "../config/axios";
 
 export function addNewProject(project) {
-  project.id = uuidv4();
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({
       type: ADD_PROJECT,
       payload: true,
     });
     try {
+      const response = await axiosClient.post("/api/projects", project);
       dispatch({
         type: ADD_PROJECT_SUCCESS,
-        payload: project,
+        payload: response.data,
       });
     } catch (err) {
+      console.log(err);
       dispatch({
         type: ADD_PROJECT_ERROR,
       });
@@ -39,12 +41,25 @@ export function setVisibleForm() {
   };
 }
 
-export function getTheProjects(projects) {
-  return (dispatch) => {
-    dispatch({
-      type: GET_PROJECTS,
-      payload: projects,
-    });
+export function getTheProjects() {
+  return async (dispatch) => {
+    try {
+      const response = await axiosClient.get("/api/projects");
+      dispatch({
+        type: GET_PROJECTS,
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+      const alert = {
+        msg: "Hubo un error",
+        category: "alerta-error",
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert,
+      });
+    }
   };
 }
 
@@ -67,11 +82,23 @@ export function selectActualProject(projectId) {
 }
 
 export function deleteActualProject(projectId) {
-  return (dispatch) => {
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: projectId,
-    });
+  return async (dispatch) => {
+    try {
+      await axiosClient.delete(`/api/projects/${projectId}`);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: projectId,
+      });
+    } catch (err) {
+      console.log(err);
+      const alert = {
+        msg: "Hubo un error",
+        category: "alerta-error",
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert,
+      });
+    }
   };
 }
-

@@ -7,6 +7,7 @@ import {
   FORM_ERROR,
   ACTUAL_PROJECT,
   DELETE_PROJECT,
+  PROJECT_ERROR
 } from "../types";
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   projects: [],
   loading: false,
   error: null,
-  project: [] 
+  project: [] ,
+  msg: null
 };
 
 export default function formReducer(state = initialState, action) {
@@ -62,14 +64,20 @@ export default function formReducer(state = initialState, action) {
     case ACTUAL_PROJECT:
       return {
         ...state,
-        project: state.projects.filter(project => project.id === action.payload) 
+        project: state.projects.filter(project => project._id === action.payload) 
       }
 
     case DELETE_PROJECT:
       return {
         ...state,
-        projects: state.projects.filter(project => project.id !== action.payload),
+        projects: state.projects.filter(project => project._id !== action.payload),
         project: []
+      }
+
+    case PROJECT_ERROR:
+      return {
+        ...state,
+        msg: action.payload
       }
 
     default:

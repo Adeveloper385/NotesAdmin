@@ -8,6 +8,7 @@ export const GET_PROJECTS = 'GET_PROJECTS'
 export const FORM_ERROR = 'FORM_ERROR'
 export const ACTUAL_PROJECT = 'ACTUAL_PROJECT'
 export const DELETE_PROJECT = 'DELETE_PROJECT'
+export const PROJECT_ERROR = 'PROJECT_ERROR'
 
 //    TYPES for Tasks form and list
 export const GET_TASK = 'GET_TASK'
@@ -17,7 +18,6 @@ export const ADD_TASK_ERROR = 'ADD_TASK_ERROR'
 export const TASK_ERROR = 'TASK_ERROR'
 export const DELETE_TASK = 'DELETE_TASK'
 export const EDIT_TASK = 'EDIT_TASK'
-export const CHANGE_STATE = 'CHANGE_STATE'
 export const ACTUAL_TASK = 'ACTUAL_TASK'
 
 //    Types for Alerts

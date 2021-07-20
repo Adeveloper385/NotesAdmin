@@ -9,7 +9,7 @@ const Header = ({ authState, authUser, logOut }) => {
 
   useEffect(() => {
     authUser();
-  }, []);
+  }, [authUser]);
 
   return (
     <header className="app-header">

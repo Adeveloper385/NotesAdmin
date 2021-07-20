@@ -25,7 +25,7 @@ const NewAccount = ({ alertState, authState, showAlert, registerUser, history })
     if(auth) history.push('/projects')
     if(msg) showAlert(msg.msg, msg.category)
     
-  },[msg, auth])
+  },[msg, auth, history, showAlert])
 
   //    Handle Events   -------------->
   const handleInputChange = (e) => {

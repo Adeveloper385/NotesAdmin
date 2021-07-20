@@ -9,11 +9,11 @@ import TaskList from "../tasks/TaskList";
 import { connect } from 'react-redux'
 import { authUser } from "../../actions/authAction";
 
-const Projects = ({ authState, authUser }) => {
+const Projects = ({ authUser }) => {
 
   useEffect(() => {
     authUser() 
-  }, [])
+  }, [authUser])
 
   return (
     <div className="contenedor-app">
@@ -32,7 +32,7 @@ const Projects = ({ authState, authUser }) => {
 };
 
 const mapStateToProps = state => ({
-  authState: state.authState
+  state
 })
   
 const mapDispatchToProps = {

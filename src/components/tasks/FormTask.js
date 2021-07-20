@@ -19,7 +19,6 @@ const FormTask = ({ formState, projectState, addNewTask, getTheTasks, taskErrors
   //    State
   const [task, setTask] = useState({
     name: "",
-    isComplete: false,
   });
 
   //    Effect task selected
@@ -29,7 +28,6 @@ const FormTask = ({ formState, projectState, addNewTask, getTheTasks, taskErrors
     } else {
       setTask({
         name: "",
-        isComplete: false,
       });
     }
   }, [actualTask]);
@@ -50,17 +48,17 @@ const FormTask = ({ formState, projectState, addNewTask, getTheTasks, taskErrors
 
     //  New or Edit Task
     if (actualTask === null) {
-      addNewTask(task, actualProject.id);
+      task.project = actualProject      
+
+      addNewTask(task);
       getTheTasks(actualProject.id);
     } else {
       editTask(task);
-      console.log(task);
       getTheTasks(actualProject.id);
     }
 
     setTask({
       name: "",
-      isComplete: false,
     });
   };                            //    End Event Handlers
 

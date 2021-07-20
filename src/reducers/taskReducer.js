@@ -2,16 +2,13 @@ import {
   GET_TASK,
   ADD_TASK,
   ADD_TASK_ERROR,
-  ADD_TASK_SUCCESS,
   TASK_ERROR,
   DELETE_TASK,
   EDIT_TASK, 
-  CHANGE_STATE,
   ACTUAL_TASK
 } from "../types"
 
 const initialState = {
-  tasks: [],
   projectTasks: [],
   loading: false,
   error: null,
@@ -25,19 +22,13 @@ export default function taskReducer(state = initialState, action){
     case GET_TASK:
       return {
         ...state,
-        projectTasks: state.tasks.filter(task => task.projectId === action.payload) 
+        projectTasks: action.payload 
       }
     
     case ADD_TASK:
       return {
         ...state,
-        loading: action.payload
-      }
-
-    case ADD_TASK_SUCCESS:
-      return {
-        ...state,
-        tasks: [action.payload, ...state.tasks],
+        projectTasks: [action.payload, ...state.projectTasks],
         loading: false,
         taskError: false
       }
@@ -57,7 +48,7 @@ export default function taskReducer(state = initialState, action){
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload)
+        projectTasks: state.projectTasks.filter(task => task._id !== action.payload)
       }
 
     case ACTUAL_TASK:
@@ -69,14 +60,8 @@ export default function taskReducer(state = initialState, action){
     case EDIT_TASK:
       return {
         ...state,
-        tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task),
+        projectTasks: state.projectTasks.map(task => task._id === action.payload._id ? action.payload : task),
         actualTask: null
-      }
-
-    case CHANGE_STATE:
-      return {
-        ...state,
-        tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
       }
 
     default:

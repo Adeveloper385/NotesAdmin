@@ -14,13 +14,12 @@ export function registerUser(data) {
   return async (dispatch) => {
     try {
       const response = await axiosClient.post("/api/users", data);
-      console.log(response);
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });
 
       // get authUser
       dispatch(authUser());
     } catch (err) {
-      //console.log(err.response);
+      console.log(err.response);
       const alert = {
         msg: err.response.data.msg,
         category: "alerta-error",
@@ -52,7 +51,6 @@ export function logIn(data) {
   return async (dispatch) => {
     try {
       const response = await axiosClient.post("/api/auth", data);
-      console.log(response);
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
 
       //    auth user and logIn

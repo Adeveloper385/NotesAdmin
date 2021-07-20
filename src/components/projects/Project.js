@@ -2,31 +2,29 @@
 import { connect } from "react-redux";
 
 //    Actions
-import { selectActualProject } from '../../actions/formAction'
+import { selectActualProject } from "../../actions/formAction";
 import { getTheTasks } from "../../actions/taskAction";
 
- const Project = ({project, getTheTasks, selectActualProject}) => {
-
+const Project = ({ project, getTheTasks, selectActualProject }) => {
   const handleClick = () => {
-    selectActualProject(project.id) 
-    getTheTasks(project.id)
-  }
+    selectActualProject(project._id);
+    getTheTasks(project._id);
+  };
 
   return (
     <li>
-      <button 
-        className="btn btn-blank"
-        onClick={handleClick}
-      >{project.name}</button>
+      <button className="btn btn-blank" onClick={handleClick}>
+        {project.name}
+      </button>
     </li>
   );
 };
 
 const mapDispatchToProps = {
   getTheTasks,
-  selectActualProject
-}
+  selectActualProject,
+};
 
-const mapStateToProps = (state) => ({state})
+const mapStateToProps = (state) => ({ state });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project)
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

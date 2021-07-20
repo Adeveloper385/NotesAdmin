@@ -6,8 +6,6 @@ import authToken from './config/authToken'
 import Login from './components/auth/Login'
 import NewAccount from './components/auth/NewAccount'
 import Projects from './components/projects'
-import PrivateRoute from './components/projects/privateRoute'
-
 //    REDUX
 import { connect } from 'react-redux'
 import { authUser } from "./actions/authAction";
@@ -25,7 +23,7 @@ function App({ authState, authUser }) {
 
   useEffect(()=> {
     authUser() 
-  }, [])
+  }, [authUser])
 
   return (
     <>

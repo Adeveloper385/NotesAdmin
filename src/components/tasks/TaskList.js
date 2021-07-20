@@ -18,7 +18,7 @@ const TaskList = ({ formState, projectState, deleteActualProject }) => {
 
   //  Handlers
   const handleDelete = (actualProject) => {
-    const id = actualProject.id;
+    const id = actualProject._id;
     deleteActualProject(id);
   };
 
@@ -36,8 +36,8 @@ const TaskList = ({ formState, projectState, deleteActualProject }) => {
         ) : (
           <TransitionGroup>
             {tasks.map((task) => (
-              <CSSTransition key={task.id} timeout={300} classNames="tarea">
-                <Task task={task} projectId={actualProject.id} />
+              <CSSTransition key={task._id} timeout={300} classNames="tarea">
+                <Task task={task} />
               </CSSTransition>
             ))}
           </TransitionGroup>
